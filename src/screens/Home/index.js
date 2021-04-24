@@ -1,12 +1,14 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import DataCard from "../../components/dataCard"
 
 const Home = () => {
   return (
     <View
       style={styles.container}
     >
-      <Text>Oi lindos</Text>
+      <Text>Painel COVID-19</Text>
+      <DataCard region={"Brasil"} totalCases={"76"} newCases={"653"} totalDeaths={"31"} newDeaths={"424"} />
     </View>
   );
 }
