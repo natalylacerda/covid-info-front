@@ -1,38 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { StatusBar } from "expo-status-bar";
 import DataCard from "../../components/dataCard"
+import { getStates, showState } from "../../services/requests"
 
 const Home = () => {
 
-  const [gender, setGender] = useState("X");
+  const [selectedUf, setSelectedUf] = useState({
+    "id": 1,
+    "name": "São Paulo",
+    "uf": "SP",
+    "cases": 2811562,
+    "deaths": 91673,
+    "datetime": "2021-04-23T21:38:54.261Z",
+    "created_at": "2021-04-24T21:31:26.333Z",
+    "updated_at": "2021-04-24T21:31:26.333Z"
+  });
+  const [states, setStates] = useState([
+    {
+      "id": 1,
+      "name": "São Paulo",
+      "uf": "SP",
+      "cases": 2811562,
+      "deaths": 91673,
+      "datetime": "2021-04-23T21:38:54.261Z",
+      "created_at": "2021-04-24T21:31:26.333Z",
+      "updated_at": "2021-04-24T21:31:26.333Z"
+    },
+    {
+      "id": 2,
+      "name": "Minas Gerais",
+      "uf": "MG",
+      "cases": 1307937,
+      "deaths": 31494,
+      "datetime": "2021-04-23T21:38:54.261Z",
+      "created_at": "2021-04-24T21:31:26.653Z",
+      "updated_at": "2021-04-24T21:31:26.653Z"
+    }
+  ]);
+
+  useEffect(() => {
+    console.log("vida triste")
+    getStates()
+      .then((res) => {setStates(res.data)})
+      .catch((error) => {console.log({error})})
+  }, []);
+
+  async function handleSelectedUf(id){
+    const {data} = await showState(id);
+    setSelectedUf(data);
+    console.log(id);
+  }
+  
 
   return (
     <>
     <StatusBar style="light" />
     <View style={styles.container}>
-
+      
       <Text style={styles.title}>Painel COVID-19</Text>
-
+      
       <View style={styles.content}>
         <View style={styles.inputRegion}>
           <Text>Região:</Text>
           <Picker
-            selectedValue={gender}
+            selectedValue={selectedUf.uf}
             mode={"dropdown"}
             style={styles.picker}
             onValueChange={(itemValue, itemIndex) =>
-              setGender(itemValue)
+              handleSelectedUf(itemIndex+1)
             }
           >
-            <Picker.Item label="Outro" value="x" />
-            <Picker.Item label="Masculino" value="M" />
-            <Picker.Item label="Feminino" value="F" />
+            {states.map((item) => (
+            <Picker.Item 
+              value={item.uf}
+              label={item.uf}
+              key={item.id}
+            />
+            ))}
           </Picker>
         </View>
 
-        <DataCard region={"Brasil"} totalCases={"76"} newCases={"653"} totalDeaths={"31"} newDeaths={"424"} />
+        <DataCard region={selectedUf.name} totalCases={selectedUf.cases} newCases={"653"} totalDeaths={selectedUf.deaths} newDeaths={"424"} />
       </View>
 
     </View>
@@ -48,9 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 33,
+    fontSize: 32,
     alignSelf: "flex-start",
-    marginLeft: 15,
+    marginLeft: 20,
     color: "#fff",
     position: "relative",
     top: 40,
@@ -67,13 +117,13 @@ const styles = StyleSheet.create({
   inputRegion: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 14,
+    marginTop: 25,
     color: "#2E294E",
     fontSize: 20,
-    width: 325,
-    height: 64,
+    width: "90%",
+    height: 60,
     borderRadius: 16,
-    paddingLeft: 15.13,
+    paddingHorizontal: 15.13,
     backgroundColor: "#a3d2ca",
   },
   picker: {
