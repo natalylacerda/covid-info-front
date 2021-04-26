@@ -9,27 +9,16 @@ const DataCard = (props) => {
         <Text style={styles.region}>{props.region}</Text>
       </View>
 
-      <View style={styles.statistics}>
-          <View style={styles.specificInfo}>
-              <Text style={styles.number}>{props.totalCases}</Text>
-              <Text style={styles.labelInfo}>Casos totais</Text>
-          </View>
-          <View style={styles.specificInfo}>
-              <Text style={styles.number}>{props.newCases}</Text>
-              <Text style={styles.labelInfo}>Novos casos</Text>
-          </View>
-      </View>
+        <View style={styles.statistics}>
+            <Text style={styles.number}>{props.totalCases}</Text>
+            <Text style={styles.labelInfo}>Casos totais</Text>
+        </View>
+        
+        <View style={styles.statistics}>
+            <Text style={styles.number}>{props.totalDeaths}</Text>
+            <Text style={styles.labelInfo}>Mortes totais</Text>
+        </View>
 
-      <View style={styles.statistics}>
-          <View style={styles.specificInfo}>
-              <Text style={styles.number}>{props.totalDeaths}</Text>
-              <Text style={styles.labelInfo}>Mortes totais</Text>
-          </View>
-          <View style={styles.specificInfo}>
-              <Text style={styles.number}>{props.newDeaths}</Text>
-              <Text style={styles.labelInfo}>Novas mortes</Text>
-          </View>
-      </View>
     </View>
   );
 }
@@ -54,13 +43,9 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   statistics: {
-    flexDirection: "row",
     marginVertical: 5,
     paddingHorizontal: 15,
-  },
-  specificInfo: {  
-    width: "50%",
-    marginHorizontal: 5
+    marginLeft: 15
   },
   number: {  
     fontSize:26,

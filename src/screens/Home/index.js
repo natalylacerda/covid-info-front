@@ -28,20 +28,9 @@ const Home = () => {
       "created_at": "2021-04-24T21:31:26.333Z",
       "updated_at": "2021-04-24T21:31:26.333Z"
     },
-    {
-      "id": 2,
-      "name": "Minas Gerais",
-      "uf": "MG",
-      "cases": 1307937,
-      "deaths": 31494,
-      "datetime": "2021-04-23T21:38:54.261Z",
-      "created_at": "2021-04-24T21:31:26.653Z",
-      "updated_at": "2021-04-24T21:31:26.653Z"
-    }
   ]);
 
   useEffect(() => {
-    console.log("vida triste")
     getStates()
       .then((res) => {setStates(res.data)})
       .catch((error) => {console.log({error})})
@@ -50,10 +39,8 @@ const Home = () => {
   async function handleSelectedUf(id){
     const {data} = await showState(id);
     setSelectedUf(data);
-    console.log(id);
   }
   
-
   return (
     <>
     <StatusBar style="light" />
@@ -82,7 +69,11 @@ const Home = () => {
           </Picker>
         </View>
 
-        <DataCard region={selectedUf.name} totalCases={selectedUf.cases} newCases={"653"} totalDeaths={selectedUf.deaths} newDeaths={"424"} />
+        <DataCard
+         region={selectedUf.name}
+         totalCases={selectedUf.cases}
+         totalDeaths={selectedUf.deaths}
+        />
       </View>
 
     </View>
